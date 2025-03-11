@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name="users")
@@ -85,7 +86,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
+        return roles.stream().map(role -> (GrantedAuthority) role).collect(Collectors.toSet());
     }
 
     @Override
@@ -119,5 +120,10 @@ public class User implements UserDetails {
         if (obj == null || getClass() != obj.getClass()) return false;
         User user = (User) obj;
         return Objects.equals(id, user.id); // id - это уникальный идентификатор
+    }
+
+    @Override
+    public String toString() {
+        return "User{id=" + id + ", username='" + username + "', email='" + email + "', roles=" + roles + "}";
     }
 }

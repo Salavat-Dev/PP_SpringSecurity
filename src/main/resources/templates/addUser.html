@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+  <meta charset="UTF-8">
   <title>Добавить нового пользователя</title>
 </head>
 <body>
@@ -17,13 +18,13 @@
 
   <label for="roles">Роли:</label>
   <select multiple id="roles" th:field="*{roles}">
-    <option th:each="role : ${roles}" th:value="${role.name}" th:text="${role.name}"
-            th:selected="*{roles.contains(role)}">
-    </option>
-  </select><br>
+    <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.name}"></option>
+  </select>
 
   <button type="submit">Добавить пользователя</button>
 </form>
+
+<!-- Кнопка выхода -->
 <form th:action="@{/logout}" method="post" style="position: absolute; top: 10px; right: 10px;">
   <button type="submit">Выйти</button>
 </form>

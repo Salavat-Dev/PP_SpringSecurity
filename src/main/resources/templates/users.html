@@ -23,14 +23,17 @@
             <span th:each="role : ${user.roles}" th:text="${role.name}"></span>
         </td>
         <td>
-            <a th:href="@{/admin/edit/{username}(username=${user.username})}">Редактировать</a> |
+            <a th:href="@{/admin/edit/{id}(id=${user.id})}">Редактировать</a> |
             <a th:href="@{/admin/delete/{id}(id=${user.id})}">Удалить</a>
         </td>
     </tr>
     </tbody>
 </table>
+
+<!-- Кнопка выхода -->
 <form th:action="@{/logout}" method="post" style="position: absolute; top: 10px; right: 10px;">
     <button type="submit">Выйти</button>
 </form>
+
 </body>
 </html>

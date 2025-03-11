@@ -5,14 +5,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.kata.spring.boot_security.demo.Repository.UserRepository;
+import org.springframework.transaction.annotation.Transactional;
+import ru.kata.spring.boot_security.demo.repository.UserRepository;
 import ru.kata.spring.boot_security.demo.entity.Role;
 import ru.kata.spring.boot_security.demo.entity.User;
 
-import javax.transaction.Transactional;
+
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -36,18 +36,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public User getUserByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public User getUserById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new UsernameNotFoundException("Пользаватель с id " + id + " не найден"));
@@ -63,7 +64,9 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void updateUser(User user) {
-        user.setRoles(Collections.singleton(new Role(2L, "ROLE_USER")));
+        if (user.getRoles() == null || user.getRoles().isEmpty()) {
+            user.setRoles(Collections.singleton(new Role(1L, "ROLE_USER")));
+        }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
