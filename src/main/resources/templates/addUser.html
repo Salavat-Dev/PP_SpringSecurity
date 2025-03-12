@@ -1,25 +1,26 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
+  <meta charset=\"UTF-8\">
   <title>Добавить нового пользователя</title>
 </head>
 <body>
 <h2>Добавить нового пользователя</h2>
 <form th:action="@{/admin/add}" th:object="${user}" method="post">
   <label for="username">Имя пользователя:</label>
-  <input type="text" id="username" th:field="*{username}" required><br>
+  <input type="text" id="username" th:field="*{username}" required/><br>
 
   <label for="email">Email:</label>
-  <input type="email" id="email" th:field="*{email}" required><br>
+  <input type="email" id="email" th:field="*{email}" required/><br>
 
   <label for="password">Пароль:</label>
-  <input type="password" id="password" th:field="*{password}" required><br>
+  <input type="password" id="password" th:field="*{password}" required/><br>
 
   <label for="roles">Роли:</label>
   <select multiple id="roles" th:field="*{roles}">
-    <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.name}"></option>
-  </select>
+    <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.name}" \n            th:selected="${user.roles != null and #lists.contains(user.roles.![id], role.id)}">
+    </option>
+  </select><br>
 
   <button type="submit">Добавить пользователя</button>
 </form>
@@ -28,5 +29,6 @@
 <form th:action="@{/logout}" method="post" style="position: absolute; top: 10px; right: 10px;">
   <button type="submit">Выйти</button>
 </form>
+
 </body>
 </html>

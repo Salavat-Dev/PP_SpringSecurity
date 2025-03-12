@@ -42,7 +42,7 @@ public class AdminController {
 
     @PostMapping("/add")
     public String addUser(@ModelAttribute("user") User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
         userService.addUser(user);
         return "redirect:/admin";
     }
